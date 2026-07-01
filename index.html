@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Crossover — Will AI Overcome Humans?</title>
+<meta name="description" content="A visual exploration of AI capability versus human capability — timeline, evidence, perspectives, and reader reactions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #12100e;
+    --bg-alt: #181512;
+    --surface: #1f1b17;
+    --surface-2: #262019;
+    --line: #35302a;
+    --ink: #f1ede4;
+    --ink-muted: #a89f92;
+    --human: #e8734a;
+    --human-dim: #e8734a33;
+    --ai: #4fd1c5;
+    --ai-dim: #4fd1c533;
+    --gold: #d4af6a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--human); color:#12100e; }
+
+  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:600; line-height:1.05; letter-spacing:-0.01em;}
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--ai);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{ content:""; width:24px; height:1px; background:var(--ai); display:inline-block; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  section{ position:relative; padding:120px 0; }
+
+  /* ---------- background texture ---------- */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:1; opacity:0.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    backdrop-filter:blur(10px);
+    background:rgba(18,16,14,0.72);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{ display:flex; align-items:center; justify-content:space-between; padding-top:20px; padding-bottom:20px; }
+  .brand{ font-family:'Fraunces', serif; font-size:1.15rem; font-weight:600; display:flex; align-items:center; gap:10px;}
+  .brand-dot{ width:9px; height:9px; border-radius:50%; background:var(--ai); box-shadow:0 0 12px var(--ai); }
+  nav ul{ list-style:none; display:flex; gap:34px; }
+  nav a{ color:var(--ink-muted); text-decoration:none; font-size:0.88rem; transition:color .25s; }
+  nav a:hover{ color:var(--ink); }
+
+  /* ---------- hero ---------- */
+  .hero{ padding-top:190px; padding-bottom:100px; }
+  .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center; }
+  .hero h1{ font-size:clamp(2.6rem, 5.4vw, 4.6rem); }
+  .hero h1 em{ font-style:italic; color:var(--human); }
+  .hero p.lede{ margin-top:26px; font-size:1.15rem; color:var(--ink-muted); max-width:46ch; }
+  .hero-cta{ margin-top:38px; display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    font-family:'JetBrains Mono', monospace; font-size:0.82rem; letter-spacing:0.03em;
+    padding:14px 24px; border-radius:2px; text-decoration:none; display:inline-block;
+    transition:transform .25s, background .25s, color .25s;
+  }
+  .btn-primary{ background:var(--human); color:#12100e; }
+  .btn-primary:hover{ transform:translateY(-2px); }
+  .btn-ghost{ border:1px solid var(--line); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--ai); color:var(--ai); }
+
+  /* signature crossover chart */
+  .chart-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:26px 26px 18px;
+  }
+  .chart-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;}
+  .chart-head .mono{ font-size:0.7rem; color:var(--ink-muted); letter-spacing:0.08em;}
+  .legend{ display:flex; gap:18px; margin-top:14px; }
+  .legend span{ font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-muted); display:flex; align-items:center; gap:8px;}
+  .legend i{ width:14px; height:3px; display:inline-block; border-radius:2px;}
+  .legend .li-human{ background:var(--human); }
+  .legend .li-ai{ background:var(--ai); }
+
+  svg text{ font-family:'JetBrains Mono', monospace; }
+  .crossover-line-ai{ stroke:var(--ai); stroke-width:2.6; fill:none; filter:drop-shadow(0 0 6px rgba(79,209,197,0.5)); }
+  .crossover-line-human{ stroke:var(--human); stroke-width:2.6; fill:none; }
+  .crossover-dash{ stroke:var(--line); stroke-width:1; stroke-dasharray:4 5; }
+  .crossover-dot{ fill:var(--gold); }
+
+  /* animated path draw */
+  .draw{ stroke-dasharray:1000; stroke-dashoffset:1000; animation:draw 2.4s ease forwards; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- section headers ---------- */
+  .section-head{ max-width:640px; margin-bottom:64px; }
+  .section-head h2{ font-size:clamp(2rem, 3.4vw, 2.8rem); }
+  .section-head p{ color:var(--ink-muted); margin-top:16px; font-size:1.05rem; }
+
+  hr.rule{ border:none; border-top:1px solid var(--line); }
+
+  /* ---------- timeline ---------- */
+  .timeline{ position:relative; padding-left:4px;}
+  .timeline::before{
+    content:""; position:absolute; left:120px; top:0; bottom:0; width:1px; background:var(--line);
+  }
+  .t-item{ display:grid; grid-template-columns:120px 1fr; gap:0; padding:34px 0; border-bottom:1px solid var(--line); position:relative;}
+  .t-item:last-child{ border-bottom:none; }
+  .t-year{ font-family:'JetBrains Mono', monospace; font-size:0.95rem; color:var(--ai); position:relative; padding-top:2px;}
+  .t-year::after{
+    content:""; position:absolute; left:116px; top:8px; width:9px; height:9px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--ai);
+  }
+  .t-body{ padding-left:40px; }
+  .t-body h3{ font-size:1.25rem; font-weight:600; margin-bottom:8px; }
+  .t-body p{ color:var(--ink-muted); max-width:60ch; }
+  .t-tag{ display:inline-block; margin-top:12px; font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--human); border:1px solid var(--human-dim); padding:4px 9px; border-radius:20px;}
+
+  /* ---------- capability bars ---------- */
+  .cap-grid{ display:flex; flex-direction:column; gap:26px; }
+  .cap-row{ display:grid; grid-template-columns:200px 1fr; gap:24px; align-items:center; }
+  .cap-label{ font-size:0.95rem; color:var(--ink); }
+  .cap-bars{ position:relative; height:34px; }
+  .cap-track{ position:absolute; inset:0; background:var(--surface); border-radius:4px; overflow:hidden; }
+  .cap-fill{ position:absolute; top:0; bottom:0; left:0; width:0; border-radius:4px; transition:width 1.4s cubic-bezier(.16,1,.3,1); }
+  .cap-fill.ai{ background:linear-gradient(90deg, var(--ai), #7fe3d9); z-index:2; }
+  .cap-fill.human{ background:linear-gradient(90deg, var(--human), #f2a077); opacity:0.55; z-index:1; }
+  .cap-pct{ position:absolute; right:10px; top:50%; transform:translateY(-50%); font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:#12100e; font-weight:700; z-index:3;}
+  .cap-note{ grid-column:2; font-size:0.85rem; color:var(--ink-muted); margin-top:-14px; }
+
+  /* ---------- perspectives ---------- */
+  .persp-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .persp-card{ background:var(--bg); padding:38px 32px; display:flex; flex-direction:column; gap:16px; }
+  .persp-tag{ font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ai); }
+  .persp-card h3{ font-size:1.4rem; }
+  .persp-card p{ color:var(--ink-muted); font-size:0.94rem; }
+  .persp-quote{ margin-top:auto; padding-top:16px; border-top:1px solid var(--line); font-style:italic; color:var(--ink); font-size:0.9rem; }
+
+  /* ---------- illustration band ---------- */
+  .illustration-band{ padding:0; }
+  .illus-wrap{ position:relative; height:420px; overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:radial-gradient(ellipse at 50% 50%, #1c1813 0%, #12100e 70%); }
+  .illus-caption{ position:absolute; bottom:24px; left:32px; font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--ink-muted); letter-spacing:0.05em; }
+
+  /* ---------- reviews ---------- */
+  .reviews-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; }
+  .review-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:28px;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .review-stars{ color:var(--gold); letter-spacing:2px; font-size:0.9rem; }
+  .review-body{ color:var(--ink-muted); font-size:0.93rem; }
+  .review-who{ display:flex; align-items:center; gap:12px; margin-top:auto; padding-top:14px; border-top:1px solid var(--line); }
+  .avatar{ width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-size:0.75rem; font-weight:700; color:#12100e; }
+  .who-name{ font-size:0.86rem; color:var(--ink); }
+  .who-role{ font-size:0.75rem; color:var(--ink-muted); }
+
+  /* ---------- CTA / footer ---------- */
+  .cta-band{ text-align:center; padding:110px 0; }
+  .cta-band h2{ font-size:clamp(2rem,4vw,3rem); max-width:14ch; margin:0 auto 22px; }
+  .cta-band p{ color:var(--ink-muted); max-width:50ch; margin:0 auto 34px; }
+
+  footer{ border-top:1px solid var(--line); padding:50px 0; }
+  .foot-grid{ display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px; }
+  .foot-note{ color:var(--ink-muted); font-size:0.82rem; max-width:56ch; }
+  .foot-brand{ font-family:'Fraunces', serif; font-size:1.05rem; }
+
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .persp-grid{ grid-template-columns:1fr; }
+    .reviews-grid{ grid-template-columns:1fr; }
+    nav ul{ display:none; }
+    .timeline::before{ left:70px; }
+    .t-item{ grid-template-columns:70px 1fr; }
+    .t-year::after{ left:66px; }
+    .t-body{ padding-left:24px; }
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header>
+  <nav class="wrap">
+    <div class="brand"><span class="brand-dot"></span>The Crossover</div>
+    <ul>
+      <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#capability">Capability</a></li>
+      <li><a href="#perspectives">Perspectives</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">A field guide to a moving target</div>
+      <h1>Will artificial<br>intelligence <em>overcome</em><br>human ability?</h1>
+      <p class="lede">Machines already out-calculate, out-search, and out-pattern-match us in narrow domains. Whether that adds up to "overcoming humans" — and what that would even mean — is the real question. This page lays out the timeline, the evidence, and the arguments on every side.</p>
+      <div class="hero-cta">
+        <a href="#timeline" class="btn btn-primary">See the timeline</a>
+        <a href="#perspectives" class="btn btn-ghost">Read the arguments</a>
+      </div>
+    </div>
+
+    <div class="chart-card reveal">
+      <div class="chart-head">
+        <span class="mono">CAPABILITY INDEX — SELECTED BENCHMARKS</span>
+        <span class="mono" style="color:var(--gold)">ILLUSTRATIVE</span>
+      </div>
+      <svg viewBox="0 0 460 260" width="100%" height="260">
+        <!-- grid -->
+        <line x1="40" y1="20" x2="40" y2="220" class="crossover-dash"/>
+        <line x1="40" y1="220" x2="430" y2="220" class="crossover-dash"/>
+        <line x1="40" y1="150" x2="430" y2="150" class="crossover-dash"/>
+        <line x1="40" y1="80" x2="430" y2="80" class="crossover-dash"/>
+        <!-- human line: flat, steady -->
+        <path class="crossover-line-human draw" d="M40,120 C120,116 200,112 280,110 C340,109 390,108 430,107" />
+        <!-- ai line: exponential, crosses -->
+        <path class="crossover-line-ai draw" style="animation-delay:.3s" d="M40,210 C120,205 200,175 280,120 C340,80 390,40 430,22" />
+        <circle class="crossover-dot" cx="284" cy="118" r="4.5"/>
+        <text x="292" y="112" fill="#d4af6a" font-size="10">crossover (task-specific)</text>
+        <!-- axis labels -->
+        <text x="40" y="238" fill="#a89f92" font-size="10">2015</text>
+        <text x="230" y="238" fill="#a89f92" font-size="10">2020</text>
+        <text x="410" y="238" fill="#a89f92" font-size="10">2026</text>
+      </svg>
+      <div class="legend">
+        <span><i class="li-human"></i>Human baseline (steady, task-dependent)</span>
+        <span><i class="li-ai"></i>AI benchmark scores (narrow tasks)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INTRO STRIP ================= -->
+<section style="padding-top:0; padding-bottom:60px;">
+  <div class="wrap">
+    <hr class="rule">
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding-top:60px;" class="reveal">
+      <div>
+        <div class="eyebrow">Narrow vs. general</div>
+        <p style="color:var(--ink-muted); font-size:0.95rem;">AI already beats humans at chess, protein folding, and image recognition. None of those systems can also hold a conversation, fold laundry, or decide what's worth doing next. "Overcoming humans" usually means something much broader: general, transferable, self-directed intelligence — and that's a different, unresolved question.</p>
+      </div>
+      <div>
+        <div class="eyebrow">Whose definition</div>
+        <p style="color:var(--ink-muted); font-size:0.95rem;">Researchers don't agree on what "overcoming" would even look like — matching humans on economically valuable tasks, matching us on every cognitive task, or something else entirely. The benchmarks below are illustrative, not a verdict.</p>
+      </div>
+      <div>
+        <div class="eyebrow">Why it matters anyway</div>
+        <p style="color:var(--ink-muted); font-size:0.95rem;">Even short of full parity, AI systems are already reshaping work, research, and daily decisions. The gap between "narrow tool" and "general agent" is exactly where the debate — and the stakes — live.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TIMELINE ================= -->
+<section id="timeline">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">How we got here</div>
+      <h2>A history of narrow victories</h2>
+      <p>Every "AI beats humans" headline has, so far, been about one task at a time. Strung together, the pattern is unmistakable — and so are the limits.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="t-item reveal">
+        <div class="t-year">1997</div>
+        <div class="t-body">
+          <h3>Deep Blue defeats a reigning world chess champion</h3>
+          <p>IBM's Deep Blue beat Garry Kasparov in a six-game match — the first time a computer beat a sitting world champion under standard tournament conditions. It was pure brute-force search, not "thinking" in any general sense.</p>
+          <span class="t-tag">Narrow / Games</span>
+        </div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-year">2011</div>
+        <div class="t-body">
+          <h3>Watson wins Jeopardy!</h3>
+          <p>IBM's Watson beat two of the show's best human champions by parsing natural-language clues and searching enormous text corpora faster than a person could recall the answer.</p>
+          <span class="t-tag">Narrow / Language retrieval</span>
+        </div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-year">2016</div>
+        <div class="t-body">
+          <h3>AlphaGo beats Lee Sedol at Go</h3>
+          <p>Go was long considered too intuitive for computers to master. DeepMind's AlphaGo won 4–1 against one of the game's top players, using deep neural networks trained partly through self-play.</p>
+          <span class="t-tag">Narrow / Games</span>
+        </div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-year">2020–21</div>
+        <div class="t-body">
+          <h3>AlphaFold cracks protein structure prediction</h3>
+          <p>DeepMind's AlphaFold predicted 3D protein structures at a level of accuracy that rivaled years of experimental lab work, a problem biologists had wrestled with for decades.</p>
+          <span class="t-tag">Narrow / Science</span>
+        </div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-year">2022–23</div>
+        <div class="t-body">
+          <h3>Large language models go mainstream</h3>
+          <p>ChatGPT and similar systems put fluent, general-purpose text generation in front of hundreds of millions of people, alongside a wave of image and code generation tools. For the first time, "general-ish" capability — not just one task — became a public experience.</p>
+          <span class="t-tag">Broader / Language & code</span>
+        </div>
+      </div>
+
+      <div class="t-item reveal">
+        <div class="t-year">2024–26</div>
+        <div class="t-body">
+          <h3>Reasoning models and early autonomous agents</h3>
+          <p>Newer models spend more computation "thinking" before answering, and are increasingly wired up to take multi-step actions on their own — booking, coding, browsing, and researching with less human supervision at each step. Capability is broadening; reliability and judgment remain open problems.</p>
+          <span class="t-tag">Emerging / Agentic systems</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CAPABILITY ================= -->
+<section id="capability" style="background:var(--bg-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Where each side actually leads</div>
+      <h2>Capability, domain by domain</h2>
+      <p>"AI vs. humans" collapses a dozen different contests into one. Here's a rough, non-scientific snapshot of where the frontier sits today — teal is AI's edge, coral is where people still lead.</p>
+    </div>
+
+    <div class="cap-grid" id="capGrid">
+      <div>
+        <div class="cap-row">
+          <div class="cap-label">Raw calculation & search</div>
+          <div class="cap-bars"><div class="cap-track"></div><div class="cap-fill ai" data-w="96"></div></div>
+        </div>
+        <div class="cap-note">Arithmetic, brute-force search, and lookup were never a fair fight — machines have led here since long before modern AI.</div>
+      </div>
+
+      <div>
+        <div class="cap-row">
+          <div class="cap-label">Image & pattern recognition</div>
+          <div class="cap-bars"><div class="cap-track"></div><div class="cap-fill ai" data-w="88"></div></div>
+        </div>
+        <div class="cap-note">On many benchmark datasets, top models match or exceed average human accuracy — though they fail in brittle, non-human ways on edge cases.</div>
+      </div>
+
+      <div>
+        <div class="cap-row">
+          <div class="cap-label">Bounded games (chess, Go, poker)</div>
+          <div class="cap-bars"><div class="cap-track"></div><div class="cap-fill ai" data-w="94"></div></div>
+        </div>
+        <div class="cap-note">Clear rules and clear win conditions are exactly what current AI is best at optimizing for.</div>
+      </div>
+
+      <div>
+        <div class="cap-row">
+          <div class="cap-label">Language fluency & drafting</div>
+          <div class="cap-bars"><div class="cap-track"></div><div class="cap-fill ai" data-w="75"></div></div>
+        </div>
+        <div class="cap-note">Strong at producing fluent, competent text fast; still inconsistent on factual reliability and original judgment.</div>
+      </div>
+
+      <div>
+        <div class="cap-row">
+          <div class="cap-label">Physical dexterity & real-world manipulation</div>
+          <div class="cap-bars"><div class="cap-track"></div><div class="cap-fill human" data-w="82"></div></div>
+        </div>
+        <div class="cap-note">Folding a shirt or navigating a cluttered kitchen is still far harder for robots than any board game.</div>
+      </div>
+
+      <div>
+        <div class="cap-row">
+          <div class="cap-label">Common-sense reasoning in novel situations</div>
+          <div class="cap-bars"><div class="cap-track"></div><div class="cap-fill human" data-w="78"></div></div>
+        </div>
+        <div class="cap-note">Humans generalize from very little experience; models still stumble on situations unlike their training data.</div>
+      </div>
+
+      <div>
+        <div class="cap-row">
+          <div class="cap-label">Emotional attunement & trust-building</div>
+          <div class="cap-bars"><div class="cap-track"></div><div class="cap-fill human" data-w="85"></div></div>
+        </div>
+        <div class="cap-note">Genuine rapport, accountability, and shared stakes are still distinctly human currencies.</div>
+      </div>
+
+      <div>
+        <div class="cap-row">
+          <div class="cap-label">Long-horizon judgment & accountability</div>
+          <div class="cap-bars"><div class="cap-track"></div><div class="cap-fill human" data-w="88"></div></div>
+        </div>
+        <div class="cap-note">Someone has to own the consequences of a decision made over months or years — that's still a human role today.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ILLUSTRATION BAND (signature visual) ================= -->
+<section class="illustration-band">
+  <div class="illus-wrap reveal" id="networkWrap">
+    <svg id="networkSvg" width="100%" height="100%" viewBox="0 0 1180 420" preserveAspectRatio="xMidYMid slice"></svg>
+    <div class="illus-caption">FIG. 01 — A NEURAL NETWORK RENDERED AS A NIGHT SKY</div>
+  </div>
+</section>
+
+<!-- ================= PERSPECTIVES ================= -->
+<section id="perspectives">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Three honest positions</div>
+      <h2>The arguments, steelmanned</h2>
+      <p>Serious, informed people land in very different places on this question. Here's the strongest version of each case.</p>
+    </div>
+
+    <div class="persp-grid reveal">
+      <div class="persp-card">
+        <div class="persp-tag">The Accelerationist Case</div>
+        <h3>The curve doesn't care about our intuitions</h3>
+        <p>Every few years, another domain assumed to require "real" human intelligence falls to a model trained on enough data and compute. Betting against the trend line has consistently been the losing bet. Extrapolate honestly, and broad human-level — then superhuman — performance is a matter of when, not if.</p>
+        <div class="persp-quote">"People keep moving the goalposts, and the ball keeps arriving anyway."</div>
+      </div>
+
+      <div class="persp-card">
+        <div class="persp-tag">The Skeptic's Case</div>
+        <h3>Intelligence isn't one dial to turn up</h3>
+        <p>Benchmark performance is not the same as general capability. Models trained to ace tests can fail on trivially rephrased versions of the same problem. "Overcoming humans" assumes intelligence is a single scalar quantity — it isn't, and stacking narrow wins doesn't add up to a general mind.</p>
+        <div class="persp-quote">"A calculator has 'overcome' humans at arithmetic since the 1970s. That framing was never the interesting question."</div>
+      </div>
+
+      <div class="persp-card">
+        <div class="persp-tag">The Governance Case</div>
+        <h3>Capability isn't destiny — deployment is</h3>
+        <p>Even if AI systems keep getting more capable, what actually happens depends on who controls them, how they're regulated, and what incentives shape their use. The relevant question isn't "can AI outperform us" but "who decides what these systems are pointed at, and who's accountable when they're wrong."</p>
+        <div class="persp-quote">"The story isn't machines versus humans. It's which humans, using which machines, answering to whom."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta-band" style="background:var(--bg-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap reveal">
+    <div class="eyebrow" style="justify-content:center;">Still an open question</div>
+    <h2>No one actually knows how this ends.</h2>
+    <p>The evidence supports faster progress than almost anyone predicted a decade ago — and just as clearly shows deep, unresolved gaps. Read the reactions below, or draw your own conclusion.</p>
+    <a href="#reviews" class="btn btn-primary">Jump to reader reviews</a>
+  </div>
+</section>
+
+<!-- ================= REVIEWS ================= -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Reader reactions</div>
+      <h2>What people made of this page</h2>
+      <p>Illustrative reader responses — a mix of excitement, doubt, and everything between. (These are sample reviews written for this page, not real submitted comments.)</p>
+    </div>
+
+    <div class="reviews-grid reveal">
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-body">"Finally a page that doesn't just say 'AI will take over' or 'AI is a fad.' The domain-by-domain breakdown is the most honest framing I've seen."</p>
+        <div class="review-who">
+          <div class="avatar" style="background:var(--ai);">MK</div>
+          <div>
+            <div class="who-name">M. Kowalski</div>
+            <div class="who-role">Software Engineer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-body">"Good balance. I'd have liked more on job displacement specifically, but the three-perspectives section captured the actual debate I hear in my lab."</p>
+        <div class="review-who">
+          <div class="avatar" style="background:var(--human);">RA</div>
+          <div>
+            <div class="who-name">R. Adeyemi</div>
+            <div class="who-role">Cognitive Science PhD candidate</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-body">"The timeline made something click for me — it's not one big leap, it's a string of narrow wins that keeps getting broader. Slightly unsettling, well explained."</p>
+        <div class="review-who">
+          <div class="avatar" style="background:var(--gold);">TS</div>
+          <div>
+            <div class="who-name">T. Suarez</div>
+            <div class="who-role">High school teacher</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★☆☆</div>
+        <p class="review-body">"Solid overview, but I'm in the skeptic camp and think the page is still a bit too generous to the 'inevitability' narrative. Worth reading either way."</p>
+        <div class="review-who">
+          <div class="avatar" style="background:var(--ai);">JH</div>
+          <div>
+            <div class="who-name">J. Halvorsen</div>
+            <div class="who-role">Robotics researcher</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-body">"Sent this to my whole team. The capability bars are a great shorthand for a conversation we kept having badly in Slack threads."</p>
+        <div class="review-who">
+          <div class="avatar" style="background:var(--human);">PL</div>
+          <div>
+            <div class="who-name">P. Lindqvist</div>
+            <div class="who-role">Product manager</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-body">"Appreciated that it didn't try to scare me or sell me anything. Just laid out the timeline and the open questions and let me sit with it."</p>
+        <div class="review-who">
+          <div class="avatar" style="background:var(--gold);">CO</div>
+          <div>
+            <div class="who-name">C. Osei</div>
+            <div class="who-role">Graduate student, philosophy</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="foot-brand">The Crossover</div>
+      <p class="foot-note" style="margin-top:10px;">A speculative, discussion-oriented page about AI and human capability. Timeline entries reflect widely reported milestones; capability charts and reader reviews are illustrative, not scientific measurements or real submissions. Built for GitHub Pages.</p>
+    </div>
+    <p class="mono" style="color:var(--ink-muted); font-size:0.78rem;">© 2026 · Built with HTML, CSS & SVG</p>
+  </div>
+</footer>
+
+<script>
+  // ---- scroll reveal ----
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el=>io.observe(el));
+
+  // ---- capability bar fill on scroll ----
+  const capGrid = document.getElementById('capGrid');
+  let capFilled = false;
+  const capIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && !capFilled){
+        capFilled = true;
+        document.querySelectorAll('.cap-fill').forEach(fill=>{
+          const w = fill.getAttribute('data-w');
+          setTimeout(()=>{ fill.style.width = w + '%'; }, 80);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+  if(capGrid) capIO.observe(capGrid);
+
+  // ---- generative neural network illustration ----
+  (function(){
+    const svg = document.getElementById('networkSvg');
+    if(!svg) return;
+    const W = 1180, H = 420;
+    const layers = [6, 10, 14, 10, 6];
+    const layerX = layers.map((_, i) => 90 + i * ((W - 180) / (layers.length - 1)));
+    const nodes = [];
+    layers.forEach((count, li) => {
+      const spacing = H / (count + 1);
+      for(let i=0;i<count;i++){
+        nodes.push({
+          layer: li,
+          x: layerX[li] + (Math.random()-0.5)*20,
+          y: spacing * (i+1) + (Math.random()-0.5)*14,
+          r: 1.6 + Math.random()*2.2
+        });
+      }
+    });
+    const ns = 'http://www.w3.org/2000/svg';
+    const linkGroup = document.createElementNS(ns,'g');
+    const nodeGroup = document.createElementNS(ns,'g');
+
+    for(let li=0; li<layers.length-1; li++){
+      const from = nodes.filter(n=>n.layer===li);
+      const to = nodes.filter(n=>n.layer===li+1);
+      from.forEach(a=>{
+        to.forEach(b=>{
+          if(Math.random() > 0.72) return;
+          const line = document.createElementNS(ns,'line');
+          line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
+          line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+          const isAI = Math.random() > 0.5;
+          line.setAttribute('stroke', isAI ? '#4fd1c5' : '#e8734a');
+          line.setAttribute('stroke-width', 0.5);
+          line.setAttribute('opacity', 0.12 + Math.random()*0.18);
+          linkGroup.appendChild(line);
+        });
+      });
+    }
+
+    nodes.forEach(n=>{
+      const c = document.createElementNS(ns,'circle');
+      c.setAttribute('cx', n.x); c.setAttribute('cy', n.y); c.setAttribute('r', n.r);
+      const colors = ['#4fd1c5','#e8734a','#d4af6a','#f1ede4'];
+      const col = colors[Math.floor(Math.random()*colors.length)];
+      c.setAttribute('fill', col);
+      c.setAttribute('opacity', 0.55 + Math.random()*0.4);
+      const dur = (2 + Math.random()*3).toFixed(2);
+      const anim = document.createElementNS(ns,'animate');
+      anim.setAttribute('attributeName','opacity');
+      anim.setAttribute('values', `${c.getAttribute('opacity')};0.15;${c.getAttribute('opacity')}`);
+      anim.setAttribute('dur', dur+'s');
+      anim.setAttribute('repeatCount','indefinite');
+      c.appendChild(anim);
+      nodeGroup.appendChild(c);
+    });
+
+    svg.appendChild(linkGroup);
+    svg.appendChild(nodeGroup);
+  })();
+</script>
+
+</body>
+</html>
